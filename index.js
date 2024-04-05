@@ -4,6 +4,20 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+// สร้าง middleware สำหรับการแก้ปัญหา CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // อนุญาตให้เรียก API จากทุกๆ โดเมน
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS" // ระบุว่าเมทอด HTTP ใดๆ ก็ได้สามารถใช้งานได้
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization" // ระบุว่าหัวข้อที่ส่งไปใน request headers ได้แก่ Content-Type และ Authorization
+  );
+  next(); // ไปยัง middleware ถัดไป
+});
+
 // เชื่อมต่อกับ MongoDB
 mongoose.connect(
   "mongodb+srv://root:1234@cluster0.71yxj9m.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
